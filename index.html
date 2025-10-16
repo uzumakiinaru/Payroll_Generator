@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payroll Main Page1</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://img.freepik.com/premium-photo/abstract-blur-canteen-room-background-office-building-university-lobby-hall-blur-generative-ai_874904-45708.jpg');     
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 750px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 25px;
+      font-weight: bold;
+    }
+    input {
+      width: 98%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 20px;
+      background: #457fa0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #4c63af;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Payroll System</h2>
+    <form id="payrollForm">
+      <label for="Idnumber">Employee ID number:</label>
+      <input 
+        type="text" 
+        id="Idnumber" 
+        placeholder="Enter 7-digit ID number" 
+        pattern="[0-9]{11}" 
+        maxlength="7"
+        title="Please enter exactly 7 digits"
+        required>
+
+      <label for="lastname">Employee Last Name:</label>
+      <input type="text" id="lastname" placeholder="Enter last name" required>
+
+      <label for="firstname">Employee First Name:</label>
+      <input type="text" id="firstname" placeholder="Enter first name" required>
+
+      <label for="middlename">Employee Middle Name:</label>
+      <input type="text" id="middlename" placeholder="Optional">
+
+      <label for="position">Position:</label>
+      <input type="text" id="position" placeholder="Enter position (e.g., Clerk)" required>
+
+      <label for="rate">Rate per Day:</label>
+      <input type="number" id="rate" placeholder="e.g., 500" required>
+
+      <label for="days">Days Worked:</label>
+      <input type="number" id="days" placeholder="e.g., 20" required>
+
+      <button type="button" onclick="computePayroll()">Compute Payroll</button>
+    </form>
+  </div>
+
+  <script>
+    function computePayroll() {
+      const idNumber = document.getElementById('Idnumber').value;
+      const lastName = document.getElementById('lastname').value;
+      const firstName = document.getElementById('firstname').value;
+      const middleName = document.getElementById('middlename').value;
+      const position = document.getElementById('position').value;
+      const rate = parseFloat(document.getElementById('rate').value);
+      const days = parseFloat(document.getElementById('days').value);
+
+      if (!idNumber || !lastName || !firstName || !position || isNaN(rate) || isNaN(days)) {
+        alert("Please fill in all required fields correctly.");
+        return;
+      }
+
+      const grossPay = rate * days;
+
+      // Compute Deductions
+      const sss = grossPay * 0.05;
+      const pagibig = grossPay * 0.03;
+      const philhealth = grossPay * 0.02;
+      const tax = grossPay * 0.05;
+      const totalDeduction = sss + pagibig + philhealth + tax;
+      const netPay = grossPay - totalDeduction;
+
+      const payrollData = {
+        idNumber,
+        lastName,
+        firstName,
+        middleName,
+        position,
+        rate,
+        days,
+        grossPay,
+        sss,
+        pagibig,
+        philhealth,
+        tax,
+        totalDeduction,
+        netPay
+      };
+
+      localStorage.setItem('payrollData', JSON.stringify(payrollData));
+      window.location.href = 'display.html';
+    }
+  </script>
+</body>
+</html>

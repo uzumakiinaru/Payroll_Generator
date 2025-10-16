@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payroll Display Page2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://img.freepik.com/premium-photo/abstract-blur-canteen-room-background-office-building-university-lobby-hall-blur-generative-ai_874904-45708.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+    td:first-child {
+      font-weight: bold;
+    }
+    .back-btn {
+      margin-top: 20px;
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: #2196F3;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      background: #1976D2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Payroll Summary</h2>
+    <table id="payrollTable"></table>
+    <a href="index.html" class="back-btn">Back to Main Page</a>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem('payrollData'));
+
+    if (!data) {
+      document.getElementById('payrollTable').innerHTML = "<tr><td colspan='2'>No data found.</td></tr>";
+    } else {
+
+      const fullName = `${data.lastName}, ${data.firstName} ${data.middleName ? data.middleName : ''}`;
+
+      const table = `
+        <tr><td>Employee ID:</td><td>${data.idNumber}</td></tr>
+        <tr><td>Full Name:</td><td>${fullName}</td></tr>
+        <tr><td>Position:</td><td>${data.position}</td></tr>
+        <tr><td>Rate per Day:</td><td>₱${data.rate.toFixed(2)}</td></tr>
+        <tr><td>Days Worked:</td><td>${data.days}</td></tr>
+        <tr><td><b>Gross Pay:</b></td><td><b>₱${data.grossPay.toFixed(2)}</b></td></tr>
+        <tr><td>SSS (5%):</td><td>₱${data.sss.toFixed(2)}</td></tr>
+        <tr><td>Pag-ibig (3%):</td><td>₱${data.pagibig.toFixed(2)}</td></tr>
+        <tr><td>PhilHealth (2%):</td><td>₱${data.philhealth.toFixed(2)}</td></tr>
+        <tr><td>Tax (5%):</td><td>₱${data.tax.toFixed(2)}</td></tr>
+        <tr><td><b>Total Deductions:</b></td><td><b>₱${data.totalDeduction.toFixed(2)}</b></td></tr>
+        <tr><td><b>Net Pay:</b></td><td><b>₱${data.netPay.toFixed(2)}</b></td></tr>
+      `;
+      document.getElementById('payrollTable').innerHTML = table;
+    }
+  </script>
+</body>
+</html>
